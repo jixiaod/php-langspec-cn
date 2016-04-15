@@ -27,4 +27,4 @@ GitHub 镜像
 PHP 规范归全社区所有，并且开源。一起来开发这个文档，提出问题，添加注释都是非常欢迎的。
 
 
-确保你完全理解[*contribution process*](CONTRIBUTING.md).
+确保你完全理解[*贡献的流程*](CONTRIBUTING.md).
