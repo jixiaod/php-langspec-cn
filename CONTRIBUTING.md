@@ -1,4 +1,4 @@
-## 如何为 PHP 语法规范贡献力量
+## 如何为PHP语言规范贡献力量
 
 我们非常期待您在完善、修正、添加文档上的帮助。
 请 [提出问题](https://bugs.php.net/) 或者 [提交修改](https://wiki.php.net/vcs/gitworkflow)
@@ -6,7 +6,7 @@
 
 ## 贡献的许可证
 
-您无论任何形式对 PHP 规范文档的贡献，都必须添加我们同样的[LICENSE](LICENSE)。 
+您无论任何形式对PHP规范文档的贡献，都必须添加我们同样的[LICENSE](LICENSE)。 
 
 ## 中文版问题
 
