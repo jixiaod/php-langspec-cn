@@ -10,8 +10,8 @@ Facebook 已经把所有该规范的版权贡献给献给CC0公共域协议，�
 **目录索引** 
 - [引言](01-introduction.md#引言)
 - [基本准则](02-conformance.md#基本准则)
-- [术语和定义](03-terms-and-definitions.md#terms-and-definitions)
-- [基本概念](04-basic-concepts.md#basic-concepts)
+- [术语和定义](03-terms-and-definitions.md#术语和定义)
+- [基本概念](04-basic-concepts.md#基本概念)
   - [程序结构](04-basic-concepts.md#program-structure)
   - [程序开始](04-basic-concepts.md#program-start-up)
   - [程序结束](04-basic-concepts.md#program-termination)
