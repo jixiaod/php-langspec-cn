@@ -15,7 +15,7 @@
 变量并没有被明确的定义成某一个类型，而且一个变量的类型是在运行时根据它本身包含的值决定的。
 在运行时的不同时刻，同一个变量有可能是任意不同的类型。
 
-PHP 的内置函数中提供了几个有用的查询和设置类型的方法，包括
+PHP 的内置函数中提供了几个有用的检查和设置类型的方法，包括
 [`gettype`](http://www.php.net/gettype)， [`is_type`](http://www.php.net/is_type)， [`settype`](http://www.php.net/settype)，和[`var_dump`](http://www.php.net/var_dump)。
 
 ##标量类型
@@ -36,7 +36,7 @@ PHP 的内置函数中提供了几个有用的查询和设置类型的方法，�
 布尔类型就是 `bool`，`bool`就是`boolean`的一个代名词。此类型包含俩个不同的值，分别对应
 [`true`和`false`](06-constants.md#core-predefined-constants)。布尔类型的内部表示和它的值是不确定的。
 
-库函数 [`is_bool`](http://www.php.net/is_bool) 可以判断一个值是否是`布尔型`。
+库函数[`is_bool`](http://www.php.net/is_bool) 可以判断一个值是否是`布尔型`。
 
 ###整数类型
 
@@ -125,7 +125,7 @@ Null 类型只有一个可能的值，[`NULL`](06-constants.md#core-predefined-c
 
 用库函数[`is_null`](http://www.php.net/is_null) 来判断一个值是否是`NULL`。
 
-##符合类型
+##复合类型
 
 ###数组
 
@@ -143,14 +143,15 @@ Null 类型只有一个可能的值，[`NULL`](06-constants.md#core-predefined-c
 
 ###资源
 
-[*资源*](http://php.net/manual/language.types.resource.php) 是一种外部实体的
-描述符号。包括文件、数据库和网络套接字。
+[*资源*](http://php.net/manual/language.types.resource.php) 是外部资源的一个引用。
+包括打开文件、数据库连接和网络套接字。
 
-资源是一个表现不确定的抽象实体。资源只有在代码运行时被创建和使用，而不是体现在PHP代码中。
+资源是一个表现不确定的抽象实体。资源只有在代码运行时被创建和销毁，而不是体现在PHP代码中。
 
 每个不同的资源都有不同形式的唯一标识。
 
-[`is_resource`](http://www.php.net/is_resource) 用来判断一个值是否是一个资源类型。[`get_resource_type`]能够获取一个资源的类型。
+[`is_resource`](http://www.php.net/is_resource) 函数判断一个变量是否是资源类型。函数[`get_resource_type`]能够返回一个资源的类型。
 
-
+##待完善内容
+Callback 回调类型和伪类型
 
