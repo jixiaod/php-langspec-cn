@@ -83,20 +83,30 @@ If the source type is `int`, if the precision can be preserved the result
 value is the closest approximation to the source value; otherwise, the
 result is undefined.
 
-If the source is a [numeric string or leading-numeric string](05-types.md#the-string-type)
-having integer format, the string's integer value is treated as
-described above for a conversion from `int`. If the source is a numeric
-string or leading-numeric string having floating-point format, the
-result value is the closest approximation to the string's floating-point
-value. The trailing non-numeric characters in leading-numeric strings
-are ignored. For any other string, the result value is 0.
+从整型转换为浮点数类型，如果精度可以保留，则结果值是一个最接近原值的浮点数；
+否则结果不可预期。（觉得此处原文有问题，整型转换为浮点数没那么复杂，不过对于过长整型数字会有如下自动转换。）
 
-If the source is an object, if the class defines a conversion function,
-the result is determined by that function (this is currently available only to internal classes).
-If not, the conversion is invalid, the result is assumed to be 1.0 and a non-fatal error is produced.
+```
+// 64位系统，PHP 5.6 / PHP 7
+$int = 9223372036854775807;
+$float = (float)$int;
+var_dump($int);
+var_dump($float);
 
-For sources of all other types, the conversion result is obtained by first
-[converting the source value to `int`](#converting-to-integer-type) and then to `float`.
+
+output:
+int(9223372036854775807)
+float(9.2233720368548E+18)
+```
+
+对于字符串转换为浮点类型，如果是一个[数字字符串或者以数字开头的字符串](05-types.md#the-string-type)，拥有整型的格式，
+而且精度可以保留，则结果值是该字符串的整型值；如果是浮点数形式或者是以浮点数形势开头的字符串，结果值是跟字符串中浮点数最接近的一个值。
+忽略字符串中的非数字后缀被。对于其他字符串，结果值是 0 。
+
+对于一个对象，如果类实现定义了一个转换函数，转换结果由该函数决定（这种情况目前只有在内置函数中实现）。
+如果没有转换函数，则转换是非法的，结果值被假定为 1.0 ，且会抛出一个非致命错误。
+
+对于其他所有类型，转换结果需要遵循[转换为整型](#converting-to-integer-type)，然后在转换为`float`。
 
 内置函数[`floatval`](http://www.php.net/floatval)能够获取变量的浮点数值。
 
