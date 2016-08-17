@@ -2,71 +2,37 @@
 
 ##概述
 
-Explicit type conversion is performed using the [cast operator](10-expressions.md#cast-operator).
-If an operation or language construct expects operand of one type and a value of another type is given,
-implict (automatic) conversion will be performed. Same will happen with most internal functions, though some
-functions may do different things depending on argument type and thus would not perform the conversion.
-
-显示的类型转换使用[强制类型转换运算符](10-expressions.md#cast-operator)。
+显式的类型转换使用[强制类型转换运算符](10-expressions.md#cast-operator)。
 如果一个操作或者语言结构期望操作对象是某一种类型，但是提供的是另外一种类型的值时，
-隐式（自动）类型转换就会执行。在大多数内部函数中也会有隐式的类型转换，然而有些函数会根据参数类型不行去执行不同的操作，
+隐式（自动）类型转换就会执行。在大多数内部函数中也会有隐式的类型转换，
+然而有些函数会根据参数类型不同,从而去执行不同的操作，
 这种情况下不会执行类型转换。
 
-If an expression is converted to its own type, the type and value of the
-result are the same as the type and value of the expression.
+如果一个类型被转换成自己原来的类型，则结果的类型和值跟原来是相同的。
 
-如果一个表达式被转换成自己的类型，则结果的类型和值跟原表达式是相同的。
-
-Conversions to `resource` and `null` types can not be performed.
-
-转换为`资源`和`null`类型的操作是不能直行的。
+不允许转换为`资源`和`null`类型。
 
 ##转换为布尔类型
 
-The [result type] (http://www.php.net/manual/en/language.types.boolean.php#language.types.boolean.casting) is [`bool`](05-types.md#the-boolean-type).
-
-[结果类型](http://www.php.net/manual/en/language.types.boolean.php#language.types.boolean.casting) 是 [`布尔型`](05-types.md#the-boolean-type)。
-
-If the source type is `int` or `float`, then if the source value tests equal
-to 0, the result value is `FALSE`; otherwise, the result value is `TRUE`.
+转换的[结果类型](http://www.php.net/manual/en/language.types.boolean.php#language.types.boolean.casting) 是 [`布尔型`](05-types.md#the-boolean-type)。
 
 如果原类型是`int`或`float`，并且原值为 0 ，转换后的结果是`FALSE`；否则，结果值是`TRUE`。
 
-If the source value is `NULL`, the result value is `FALSE`.
-
 如果原值是`NULL`，结果值是`FALSE`。
-
-If the source is an empty string or the string "0", the result value is
-`FALSE`; otherwise, the result value is `TRUE`.
 
 如果原值是一个空字符串或者字符串“0”，结果值是`FALSE`；否则结果值是`TRUE`。
 
-If the source is an array with zero elements, the result value is `FALSE`;
-otherwise, the result value is `TRUE`.
-
-如果原值是0个元素数组，结果值是`FALSE`；否则值是`TRUE`。
-
-If the source is an object, the result value is `TRUE`.
+如果原值是一个包涵 0 个元素的数组，结果值是`FALSE`；否则值是`TRUE`。
 
 如果原值是一个对象，结果值是`TRUE`。
 
-If the source is a resource, the result value is `TRUE`.
-
 如果原值是资源类型，结果值是`TRUE`。
 
-The library function [`boolval`](http://www.php.net/boolval) allows values to be converted to
-`bool`.
-
-库函数[`boolval`](http://www.php.net/boolval)能够获取变量的布尔值。
+内置函数[`boolval`](http://www.php.net/boolval)能够获取变量的布尔值。
 
 ##转换为整型
 
-The [result type](http://www.php.net/manual/en/language.types.integer.php#language.types.integer.casting)  is [`int`](05-types.md#the-integer-type).
-
 转换的[结果类型](http://www.php.net/manual/en/language.types.integer.php#language.types.integer.casting)是[`整型`](05-types.md#the-integer-type)。
-
-If the source type is `bool`, then if the source value is `FALSE`, the
-result value is 0; otherwise, the result value is 1.
 
 如果原类型是`布尔型`，并且值是`FALSE`，结果值是 0 ；否则结果值是 1 。
 
@@ -78,9 +44,8 @@ be preserved, the following conversion algorithm is used, where *X* is
 defined as two to the power of the number of bits in an integer (for example,
 2 to the power of 32, i.e. 4294967296):
 
-如果原值类型是`float`，当值是`INF`、`-INF`、`NAN`时，结果值是 0 。对于是其他值，如果
-精度可以保存（也就是说，浮动是在一个整数的范围内），小数部分是趋近于零的。
-如果精度不能被保留，会使用下面的转换算法，其中*X*被定义为2平方的整数（例如，2的32次方，即4294967296）
+如果原值类型是`float`，对于值是`INF`、`-INF`、`NAN`时，结果值是 0 (PHP7 下测试是 0，PHP5.6 是-9223372036854775808)。
+如果浮点数在精度范围内，浮点数向零取整，小数部分趋近于零。（以下内容没有理解透彻，暂不翻译）
 
  1. We take the floating point remainder (wherein the remainder has the same
     sign as the dividend) of dividing the float by *X*, rounded towards zero.
@@ -90,38 +55,29 @@ defined as two to the power of the number of bits in an integer (for example,
  4. This result is converted to a signed integer by treating the unsigned
     integer as a two's complement representation of the signed integer.
 
-Implementations may implement this conversion differently (for example, on some
-architectures there may be hardware support for this specific conversion mode)
-so long as the result is the same.
 
-If the source value is `NULL`, the result value is 0.
+这种转换可以使用不同的方法实现（比如，在某些架构可能有特定的硬件支持特定的转换模式），
+只要转换结果相同即可。 
 
 如果原值是`NULL`，结果值是 0。
 
-If the source is a [numeric string or leading-numeric string](05-types.md#the-string-type)
-having integer format, if the precision can be preserved the result
-value is that string's integer value; otherwise, the result is
-undefined. If the source is a numeric string or leading-numeric string
-having floating-point format, the string's floating-point value is
-treated as described above for a conversion from `float`. The trailing
-non-numeric characters in leading-numeric strings are ignored.  For any
-other string, the result value is 0.
+字符串转换为整型。如果是一个[数字字符串或者以数字开头的字符串](05-types.md#the-string-type)，拥有整型的格式，
+而且精度可以保留，则结果值是该字符串的整型值；否则结果是 undefined。如果是一个数字字符串或者以数字开头的字符串，
+但是数字是浮点数类型的格式，根据上面的转换`浮点数`的方法转换字符串中的浮点数值。忽略字符串中的非数字后缀被。对于其他字符串，
+结果值是 0 。
 
-If the source is an array with zero elements, the result value is 0;
-otherwise, the result value is 1.
+从数组转换为整型。如果是从一个只有0个元素的数组转换为整型，结果值是 0 ；否则结果值是 1 。
 
-If the source is an object, if the class defines a conversion function,
-the result is determined by that function (this is currently available only to internal classes).
-If not, the conversion is invalid, the result is assumed to be 1 and a non-fatal error is produced.
+从Object 转换成整型，如果类实现定义了一个转换方法函数，则结果根据该函数获得（这个目前只有在内置类中可用）。
+如果没有定义转换函数，则转换非法，结果被假定为 1，且抛出一个非致命错误。
 
-If the source is a resource, the result is the resource's unique ID.
+如果从资源类型转换为整型，结果值是资源的唯一 ID 。
 
-The library function [`intval`](http://php.net/manual/function.intval.php) allows values
-to be converted to `int`.
+内置函数[`intval`](http://php.net/manual/function.intval.php) 可以转换一个值为`整型`。
 
-##Converting to Floating-Point Type
+##转换为浮点数类型
 
-The [result type](http://www.php.net/manual/en/language.types.float.php#language.types.float.casting) is [`float`](05-types.md#the-floating-point-type).
+转换的[结果类型](http://www.php.net/manual/en/language.types.float.php#language.types.float.casting) 是 [`浮点数`](05-types.md#the-floating-point-type)。
 
 If the source type is `int`, if the precision can be preserved the result
 value is the closest approximation to the source value; otherwise, the
@@ -142,80 +98,56 @@ If not, the conversion is invalid, the result is assumed to be 1.0 and a non-fat
 For sources of all other types, the conversion result is obtained by first
 [converting the source value to `int`](#converting-to-integer-type) and then to `float`.
 
-The library function [`floatval`](http://www.php.net/floatval) allows values to be converted to
-float.
+内置函数[`floatval`](http://www.php.net/floatval)能够获取变量的浮点数值。
 
-##Converting to String Type
+##转换为字符串类型
 
-The [result type](http://www.php.net/manual/en/language.types.string.php#language.types.string.casting) is [`string`](05-types.md#the-string-type).
+转换的[结果类型](http://www.php.net/manual/en/language.types.string.php#language.types.string.casting) 是 [`字符串`](05-types.md#the-string-type)。
 
-If the source type is `bool`, then if the source value is `FALSE`, the
-result value is the empty string; otherwise, the result value is "1".
+如果原类型是`bool`，并且原值是`FALSE`，那么结果值是空字符串；否则结果值是"1"。
 
-If the source type is `int` or `float`, then the result value is a string
-containing the textual representation of the source value (as specified
-by the library function [`sprintf`](http://www.php.net/sprintf)).
+如果原类型是`int`或`float`，那么结果值是原值的文本的一个字符串（可以用库函数[`sprintf`](http://www.php.net/sprintf)来说明）。
 
-If the source value is `NULL`, the result value is the empty string.
+如果原值是`NULL`，结果值是一个空字符串。
 
-If the source is an array, the conversion is invalid. The result value is
-the string "Array" and a non-fatal error is produced.
+如果原类型是一个数组，那么转换是非法的。转换的结果值是一个"Array"字符串，并且抛出一个非致命错误。
 
-If the source is an object, then if that object's class has a
-[`__toString` method](14-classes.md#method-__tostring), the result value is the string returned
-by that method; otherwise, the conversion is invalid and a fatal error is produced.
+如果原类型是一个 Object 对象，并且如果该对象有[`__toString`方法](14-classes.md#method-__tostring)，则该结果值
+即是由该`__toString`方法返回的字符串；否则，转换是无效的，且抛出一个致命错误。
 
 If the source is a resource, the result value is an
 implementation-defined string.
 
-The library function [`strval`](http://www.php.net/strval) allows values to be converted to
-string.
+如果原类型是资源类型，结果值是运行时定义的一个字符串。（形式是"Resource id #1" 的字符串，其中的 1 是 PHP 在运行时分配给该 resource 的唯一值。） 
 
-##Converting to Array Type
+库函数[`strval`](http://www.php.net/strval)可以用来转换一个值为字符串。
 
-The [result type](http://www.php.net/manual/en/language.types.array.php#language.types.array.casting) is [`array`](05-types.md#the-array-type).
+##转换为数组
 
-If the source value is `NULL`, the result value is an array of zero
-elements.
+转换后的[结果类型](http://www.php.net/manual/en/language.types.array.php#language.types.array.casting)是[`数组`](05-types.md#the-array-type)。
 
-If the source type is scalar or `resource` and it is non-`NULL`, the result value is
-an array of one element under the key 0 whose value is that of the source.
+如果原值是`NULL`，则结果值是一个 0 个元素的空数组。
 
-If the source is an object, the result is
-an [array](http://php.net/manual/language.types.array.php) of
-zero or more elements, where the elements are key/value pairs
-corresponding to the
-[object](http://php.net/manual/language.types.object.php)'s
-instance properties. The order of insertion of the elements into the
-array is the lexical order of the instance properties in the
-[*class-member-declarations*](14-classes.md#class-members) list.
+如果原类型是标量类型或者`资源类型`，并且是非`NULL`，则结果值是元素是一个以 0 为 key，转换前原的值为对应值的数组。
 
-For public instance properties, the keys of the array elements would
-be the same as the property name.
+如果原类型是一个对象，则结果是一个包含 0 个或多个元素的[数组](http://php.net/manual/language.types.array.php)，
+并且数组的元素是该[对象]((http://php.net/manual/language.types.object.php))实例属性的键值对。并且元素插入数组中的顺序
+是按照[*类成员声明*](14-classes.md#class-members)实例属性列表的顺序。
 
-The key for a private instance property has the form "\\0*class*\\0*name*",
-where the *class* is the class name, and the *name* is the property name.
+对于 Public 的实例属性，数组元素的键值跟属性名称是一样的。
 
-The key for a protected instance property has the form "\\0\*\\0*name*",
-where *name* is that of the property.
+Private 实例属性的键值的格式是"\\0*class*\\0*name*"，其中 *class* 是类的名称，*name* 是属性的名称。
 
-The value for each key is that from the corresponding property, or `NULL` if
-the property was not initialized.
+Protected 实例属性的键值格式是"\\0\*\\0*name*"，*name* 是属性的名称。
+
+每个 key 对应的值即是赋予这个属性的值，如果属性没有初始化，值就是`NULL`。
 
 ##转换为对象类型
 
-The [result type](http://www.php.net/manual/en/language.types.object.php#language.types.object.casting) is [`object`](05-types.md#objects).
-
 转换[结果类型](http://www.php.net/manual/en/language.types.object.php#language.types.object.casting) 是[`对象`](05-types.md#objects)。
 
-If the source has any type other than object, the result is an instance
-of the predefined class [`stdClass`](14-classes.md#class-stdclass). If the value of the source
-is `NULL`, the instance is empty. If the value of the source has a scalar
-type and is non-`NULL`, or is a `resource`, the instance contains a public property called
-`scalar` whose value is that of the source. If the value of the source is
-an array, the instance contains a set of public properties whose names
-and values are those of the corresponding key/value pairs in the source.
-The order of the properties is the order of insertion of the source's
-elements.
-
+如果一个其他任意类型的值被转换成对象，将会创建一个内置类[`stdClass`](14-classes.md#class-stdclass)。
+如果该值为`NULL`，则新的实例为空。如果该值是一个标量类型且非`NULL`，或者是一个`资源类型`，则转换后的实例
+会包含一个叫做`scalar`的成员成员变量，对应的值是原值。数组转换成对象将使键名成为属性名并具有相对应的值，属性的顺序同
+数组插入的顺序。
 
