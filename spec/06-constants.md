@@ -124,10 +124,10 @@ define('FAILURE', FALSE, FALSE);      // define a case-sensitive d-constant
 The members of the `E_*` family have values that are powers of 2, so
 they can be combined meaningfully using bitwise operators.
 
-##User-Defined Constants
+##用户定义的常量
 
-A constant may be defined inside or outside of functions, inside
-a [class](14-classes.md#constants), or inside an [interface](15-interfaces.md#constants).
+在函数内或函数外定义的常量，在[类](14-classes.md#constants)内部定义，或者
+在[接口](15-interfaces.md#constants)内部定义。
 
 
 
