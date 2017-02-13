@@ -46,6 +46,7 @@ defined as two to the power of the number of bits in an integer (for example,
 
 如果原值类型是`float`，对于值是`INF`、`-INF`、`NAN`时，结果值是 0 (PHP7 下测试是 0，PHP5.6 是-9223372036854775808)。
 如果浮点数在精度范围内，浮点数向零取整，小数部分趋近于零。（以下内容没有理解透彻，暂不翻译）
+考虑参考[浮点数到整数的转换](http://www.cppblog.com/guojingjia2006/archive/2008/01/31/42308.html)
 
  1. We take the floating point remainder (wherein the remainder has the same
     sign as the dividend) of dividing the float by *X*, rounded towards zero.
@@ -83,8 +84,8 @@ If the source type is `int`, if the precision can be preserved the result
 value is the closest approximation to the source value; otherwise, the
 result is undefined.
 
-从整型转换为浮点数类型，如果精度可以保留，则结果值是一个最接近原值的浮点数；
-否则结果不可预期。（觉得此处原文有问题，整型转换为浮点数没那么复杂，不过对于过长整型数字会有如下自动转换。）
+从整型转换为浮点数类型，如果精度可以保留，则结果值是一个最接近原值的近似值；
+否则结果不确定。（觉得此处原文有问题，整型转换为浮点数没那么复杂，不过对于过长整型数字会有如下自动转换。）
 
 ```
 // 64位系统，PHP 5.6 / PHP 7
