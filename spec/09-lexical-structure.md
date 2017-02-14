@@ -848,37 +848,28 @@ property-in-string::
    -&gt;   <i><a href="#grammar-name">name</a></i>
 </pre>
 
-*expression* works the same way as in [simple variable expressions](10-expressions.md#simple-variable).
+*表达式*的工作方式与[简单变量表达式](10-expressions.md#simple-variable)的工作方式相同。
 
-After the variable defined by the syntax above is evaluated, its value is converted
-to string according to the rules of [string conversion](08-conversions.md#converting-to-string-type)
-and is substituted into the string in place of the variable substitution expression.
+在评估由上述语法定义的变量后，根据[字符串转换规则](08-conversions.md#converting-to-string-type)将其值
+转换为字符串，并将其值代入变量替换表达式中的字符串。
 
-Subscript or property access defined by *offset-in-string* and *property-in-string*
-is resolved according to the rules of the [subscript operator](10-expressions.md#subscript-operator)
-and [member access operator](10-expressions.md#member-access-operator) respectively.
-The exception is that *name* inside *offset-in-string* is interpreted as a string literal even if it is not
-quoted.
+由*字符串中的偏移量*和*字符串中的属性*定义的下标或属性访问分别根据[下标运算符](10-expressions.md#subscript-operator)
+和[成员访问运算符](10-expressions.md#member-access-operator)的规则来解析。例外是，
+在*字符串内的偏移量*被解释为一个字符串文本，即使它没有引号。
 
-If the character sequence following the `$` does not parse as *name* and does not start with `{`, the `$` character
-is instead interpreted verbatim and no variable substitution is performed.
+如果`$`后的字符序列不作为*名称*解析，并且不以`{`开头，则`$`字符将逐字地解释，并且不执行变量替换。
 
-Variable substitution also provides limited support for the evaluation
-of expressions. This is done by enclosing an expression in a pair of
-matching braces (`{ ... }`). The opening brace must be followed immediately by
-a dollar (`$`) without any intervening white space, and that dollar must
-begin a variable name. If this is not the case, braces are treated
-verbatim. If the opening brace (`{`) is escaped it is not interpreted as a start of
-the embedded expression and instead is interpreted verbatim.
+变量替代也为表达式的评估提供有限的支持。这是通过在一对匹配
+大括号(`{...}`)中包含一个表达式来实现的。开头的大括号必须紧跟一个美元(`$`)，
+没有任何中间的空格，并且美元必须开始一个变量名。如果不是这样，大括号是逐字
+处理的。如果大括号(`{`)被转义，它不会被解释为嵌入表达式的开始，而是逐字解释。
 
-The value of the expression is converted to string according to the rules of
-[string conversion](08-conversions.md#converting-to-string-type) and is substituted into the string
-in place of the substitution expression.
+表达式的值根据[字符串转换规则](08-conversions.md#converting-to-string-type)转换
+为字符串，并替换为代替替换表达式的字符串。
 
-A double-quoted string literal is a constant expression if it does not
-contain any variable substitution.
+双引号字符串文字是一个常量表达式，如果它不包含任何变量替换。
 
-**Examples**
+**例子**
 
 ```PHP
 $x = 123;
@@ -896,9 +887,9 @@ $myC = new C();
 echo "\$myC->p1 = >$myC->p1<\n";  // → $myC->p1 = >2<
 ```
 
-######Heredoc String Literals
+######Heredoc 字符串文本
 
-**Syntax**
+**语法**
 
 <!-- GRAMMAR
 heredoc-string-literal::
@@ -966,32 +957,25 @@ hd-simple-escape-sequence:: one of
    \\   \$   \e   \f   \n   \r   \t   \v
 </pre>
 
-**Constraints**
+**约束**
 
-The start and end identifier names must be the same. Only horizontal white
-space is permitted between `<<<` and the start identifier. No white
-space is permitted between the start identifier and the new-line that
-follows. No white space is permitted between the new-line and the end
-identifier that follows. Except for an optional semicolon (`;`), no
-characters—-not even comments or white space-—are permitted between the
-end identifier and the new-line that terminates that source line.
+开始和结束标识符名称必须相同。 在`<<<`和起始标识符之间只允许水平空格。 
+在开始标识符和后面的新行之间不允许有空格。 在新行和后面的结束标识符之间
+不允许有空格。 除了可选的分号(`;`)之外，在结束标识符和终止该源行的新行之间
+不允许有字符 -- 甚至不包括注释或空格。
 
-**Semantics**
+**语义**
 
-A heredoc string literal is a string literal delimited by
-"`<<< name`" and "`name`". The literal can contain any source
-character. Certain other (and sometimes non-printable) characters can
-also be expressed as escape sequences.
+heredoc字符串文本是由"`<<< name`"和"`name`"分隔的字符串文字。 文字可以包含任何源字符。 
+某些其他（有时不可打印）字符也可以表示为转义序列。
 
-A heredoc literal supports variable substitution as defined for
-[double-quoted string literals](#double-quoted-string-literals).
+heredoc字符串文本支持对[双引号字符串文本](#double-quoted-string-literals)定义的变量替换。
 
-A heredoc string literal is a constant expression if it does not contain
-any variable substitution.
+heredoc字符串文本是一个常量表达式，如果它不包含任何变量替换。
 
-The optional *b-prefix* has no effect.
+可选的*b-prefix*没有效果。
 
-**Examples**
+**例子**
 
 ```PHP
 $v = 123;
@@ -1004,9 +988,9 @@ echo ">$s<";
 // Some more text<
 ```
 
-######Nowdoc String Literals
+######Nowdoc 字符串文本
 
-**Syntax**
+**语法**
 
 <!-- GRAMMAR
 nowdoc-string-literal::
@@ -1018,25 +1002,22 @@ nowdoc-string-literal::
    <i><a href="#grammar-b-prefix">b-prefix</a></i><sub>opt</sub>   &lt;&lt;&lt;   '   <i><a href="#grammar-name">name</a></i>   '   <i><a href="#grammar-new-line">new-line</a></i>   <i><a href="#grammar-hd-body">hd-body</a></i><sub>opt</sub>   <i><a href="#grammar-name">name</a></i>   ;<sub>opt</sub>   <i><a href="#grammar-new-line">new-line</a></i>
 </pre>
 
-**Constraints**
+**约束**
 
-The start and end identifier names must be the same.
-No white space is permitted between the start identifier name and its
-enclosing single quotes (`'`). See also [heredoc string literal](#heredoc-string-literals).
+开始和结束标识符名称必须相同。 在开始标识符名称及其包含的单引号(`'`)之间不允许有空格。 
+另请参见[heredoc字符串文本](#heredoc-string-literals)。
 
-**Semantics**
+**语义**
 
-A nowdoc string literal looks like a [heredoc string literal](#heredoc-string-literals)
-except that in the former the start identifier name is
-enclosed in single quotes (`'`). The two forms of string literal have the
-same semantics and constraints except that a nowdoc string literal is
-not subject to variable substitution (like the single-quoted string).
+一个nowdoc字符串文本看起来像一个[heredoc字符串文本](#heredoc-string-literals)，除了在前者
+开始标识符名称用单引号(`'`)括起来。 字符串文本的两种形式具有
+相同的语义和约束，除了nowdoc字符串文本不受变量替换（如单引号字符串）。
 
-A nowdoc string literal is a constant expression.
+nowdoc字符串文本是一个常量表达式。
 
-The optional *b-prefix* has no effect.
+可选的*b-prefix*没有效果。
 
-**Examples**
+**例子**
 
 ```PHP
 $v = 123;
@@ -1049,9 +1030,9 @@ echo ">$s<\n\n";
 // Some more text<
 ```
 
-####Operators and Punctuators
+####操作符与标点符号
 
-**Syntax**
+**语法**
 
 <!-- GRAMMAR
 operator-or-punctuator:: one of
@@ -1069,10 +1050,10 @@ operator-or-punctuator:: one of
    &gt;&gt;=   &amp;=   ^=   |=   ,   ??   &lt;=&gt;   ...   \
 </pre>
 
-**Semantics**
+**语义**
 
-Operators and punctuators are symbols that have independent syntactic
-and semantic significance. *Operators* are used in expressions to
-describe operations involving one or more *operands*, and that yield a
-resulting value, produce a side effect, or some combination thereof.
-*Punctuators* are used for grouping and separating.
+操作符和标点符号是具有独立语法和语义意义的符号。 在表达式中
+使用*运算符*来描述涉及一个或多个*操作对象*的操作，并产生结果值，
+产生副作用或其某种组合。 *标点符号*用于分组和分离。
+
+
