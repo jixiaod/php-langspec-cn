@@ -1,74 +1,44 @@
-#Expressions
+#表达式
 
-##General
+##概述
 
-An *expression* involves one or more terms and zero or more operators.
+*表达式*涉及一个或多个项和零个或多个运算符。
 
-A *full expression* is an expression that is not part of another
-expression.
+*完整表达式*是一个不是另一个表达式的一部分的表达式。
 
-A *side effect* is an action that changes the state of the execution
-environment. (Examples of such actions are modifying a variable, writing
-to a device or file, or calling a function that performs such
-operations).
+*副作用*是改变执行环境的状态的一个操作。 （比如一个修改变量的
+操作，写入设备或文件，或调用执行这样的操作的函数）。
 
-When an expression is evaluated, it produces a result. It might also
-produce a side effect. Only a few operators produce side effects. (For
-example, given the [expression statement](11-statements.md#expression-statements) `$v = 10`; the
-expression 10 is evaluated to the result 10, and there is no side
-effect. Then the assignment operator is executed, which results in the
-side effect of `$v` being modified. The result of the whole expression is
-the value of `$v` after the assignment has taken place. However, that
-result is never used. Similarly, given the expression statement `++$v`;
-the expression is evaluated to the result incremented-value-of-`$v`, and
-the side effect is that `$v` is actually incremented. Again, the result
-is never used).
+当计算表达式时，它会生成结果。 它也可能产生副作用。 只有少数操作符产生
+副作用。 （例如，给定[表达式语句](11-statements.md#expression-statements) `$v = 10`;表达式10对结果10求值，没有副作用，
+然后执行赋值运算符，这导致 `$v` 的副作用被修改。 类似地，给定表达式
+语句 `++$v`;表达式被求值为结果增加的 `$v` 值，副作用是`$v`实际上是递增的。同样，结果从不使用）。
 
-The occurrence of value computation and side effects is delimited by
-*sequence points*, places in a program's execution at which all the
-computations and side effects previously promised are complete, and no
-computations or side effects of future operations have yet begun. There
-is a sequence point at the end of each full expression. The [logical and](#logical-and-operator-form-1),
-[logical or](#logical-inclusive-or-operator-form-1),
-[conditional](#logical-inclusive-or-operator-form-1), [coalesce](#coalesce-operator) and [function call](#function-call-operator)
-operators each contain a sequence point. (For example, in the
-following series of expression statements, `$a = 10; ++$a; $b = $a;`,
-there is sequence point at the end of each full expression, so the
-assignment to `$a` is completed before `$a` is incremented, and the
-increment is completed before the assignment to `$b`).
+数值计算和副作用的发生是由序列点界定的。在程序执行中，所有序列点之前所承诺的所有计算和副作用发生，
+序列点之后的计算或副作用尚未发生。 每个完整表达式的末尾都有一个序列点。 
+[逻辑与](#logical-and-operator-form-1)，[逻辑或](#logical-inclusive-or-operator-form-1)，
+[条件](#logical-inclusive-or-operator-form-1)，[合并](#coalesce-operator)和[函数调用](#function-call-operator)操作符
+都包含一个序列点。 （例如，在以下一系列表达式语句 `$a = 10; ++$a; $b = $a`;中，在每个
+完整表达式的结尾处都有序列点，因此在 `$a` 之前的赋值完成 `$a` 增量，增量在赋给 `$b`）之前完成。
 
-When an expression contains multiple operators, the *precedence* of
-those operators controls the order in which those operators are applied.
-(For example, the expression `$a - $b / $c` is evaluated as
-`$a - ($b / $c)` because the `/` operator has higher precedence than the
-binary `-` operator). The precedence of an operator is determined by the
-definition of its associated grammar production.
+当表达式包含多个运算符时，这些运算符的优先级控制应用这些运算符的顺序。
+（例如，表达式 `$a - $b / $c` 被计算为 `$a - ($b / $c)`，因为 `/` 运算符的
+优先级高于二进制运算符 `-`。 运算符的优先级由其相关语法生成的定义确定。
 
-If an operand occurs between two operators having the same precedence,
-the order in which the operations are performed is determined by those
-operators' *associativity*. With *left-associative* operators,
-operations are performed left-to-right. (For example, `$a + $b - $c` is
-evaluated as `($a + $b) - $c`). With *right-associative* operators,
-operations are performed right-to-left. (For example, `$a = $b = $c` is
-evaluated as `$a = ($b = $c)`).
+如果操作对象出现在具有相同优先级的两个操作符中间，则执行操作的顺序由那些
+操作符的*关联性*确定。 使用*左关联*运算符，从左到右执行操作。 （例如，
+`$a + $b - $c` 被计算为`($a + $b) - $c`）。 使用*右关联*运算符，从右到左执行操作。
+（例如，`$a = $b =$c` 被计算为 `$a =($b = $c)`）。
 
-Precedence and associativity can be controlled using *grouping
-parentheses*. (For example, in the expression `($a - $b) / $c`, the
-subtraction is done before the division. Without the grouping
-parentheses, the division would take place first).
+优先级和关联性可以使用*分组括号*来控制。 （例如，在表达式 `($a - $b) / $c` 中，
+减法在除法之前完成，没有分组括号，除法将首先进行）。
 
-While precedence, associativity, and grouping parentheses control the
-order in which operators are applied, they do *not* control the order of
-evaluation of the terms themselves. Unless stated explicitly in this
-specification, the order in which the operands in an expression are
-evaluated relative to each other is unspecified. See the discussion
-above about the operators that contain sequence points. (For example, in
-the full expression `$list1[$i] = $list2[$i++]`, whether the value
-of `$i` on the left-hand side is the old or new `$i`, is unspecified.
-Similarly, in the full expression `$j = $i + $i++`, whether the value
-of `$i` is the old or new `$i`, is unspecified. Finally, in the full
-expression `f() + g() * h()`, the order in which the three functions are
-called, is unspecified).
+优先级的同时，关联性和分组括号也控制应用运算符的顺序，但它们*不*控制计算项本身的计算顺序。
+除非在本手册中明确说明，否则表达式中的操作数相对于彼此求值的顺序是未指定的。
+请参阅上面有关包含序列点的运算符的讨论。 （例如，在完整表达式 `$list1[$i] = $list2[$i++]` 中，
+左侧的 `$i` 的值是旧的还是新的 `$i` 是未指定的，类似地，表达式 `$j = $i + $i++`，`$i` 的值是
+旧的还是新的 `$i` 未指定最后，在完整表达式 `f()+ g() * h()` 三个函数被调用，计算顺序是未指定的）。
+
 
 **Implementation Notes**
 
