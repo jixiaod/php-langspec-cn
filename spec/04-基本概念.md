@@ -1,4 +1,5 @@
 #基本概念
+
 ##程序结构
 A PHP *program* consists of one or more source files, known formally as
 *scripts*.
@@ -64,7 +65,7 @@ when it's invoked.
 The implementation may accept more than one start-up script, in which case they
 are executed in implementation-defined order and share the global environment.
 
-##Program Termination
+## 程序中断
 A program may terminate normally in the following ways:
 
 -   Execution reaches the end of the [start-up script](#program-start-up).
@@ -88,7 +89,7 @@ registered by `set_exception_handler`, that is equivalent to exit(0). It
 is unspecified whether [object destructors](14-classes.md#destructors) are run.
 In all other cases, the behavior is unspecified.
 
-##__halt_compiler
+## 中断编译器执行
 
 PHP script files can incorporate data which is to be ignored by the Engine when
 compiling the script. An example of such files are [PHAR](http://www.php.net/phar) files.
